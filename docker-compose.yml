@@ -1,0 +1,12 @@
+services:
+  app:
+    build: .
+    container_name: shorts_prep
+    ports:
+      - "127.0.0.1:8103:8080"
+    volumes:
+      - shorts_prep_data:/tmp/shorts-prep
+    restart: always
+
+volumes:
+  shorts_prep_data:
