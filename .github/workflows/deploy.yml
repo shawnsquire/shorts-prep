@@ -6,22 +6,11 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, ktn]
     steps:
-      - name: Connect to Tailscale (Headscale)
-        uses: tailscale/github-action@v2
-        with:
-          authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
-          args: --login-server https://headscale.kautiontape.com --accept-routes
-
-      - name: Deploy via SSH
-        uses: appleboy/ssh-action@v1
-        with:
-          host: kautiontape-new.yuffie.ts.net
-          username: shawn
-          key: ${{ secrets.KTN_SSH_KEY }}
-          script: |
-            cd /opt/services/shorts-prep
-            git pull origin main
-            docker compose build
-            docker compose up -d
+      - name: Deploy
+        run: |
+          cd /opt/services/shorts-prep
+          git pull origin main
+          docker compose build
+          docker compose up -d
